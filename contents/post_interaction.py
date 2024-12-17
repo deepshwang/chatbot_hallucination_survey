@@ -2,10 +2,6 @@ import streamlit as st
 import random
 import os
 import pandas as pd
-from google.cloud import storage
-import io
-
-FILE_NAME="collected_responses.csv"
 
 questions_1 = [
     "Warm", "Well-intentioned", "Friendly",
@@ -178,7 +174,7 @@ def save_results():
     data_to_save = pd.concat([flattened_responses, experiments_df], axis=1)
     
     # Filepath to save data
-    csv_file_path = "saved_data.csv"
+    csv_file_path = "responses.csv"
 
     # Save to CSV (append if exists)
     if os.path.exists(csv_file_path):
@@ -196,30 +192,3 @@ def closing_page():
     st.write("Thank you for participating in this study. Your responses have been recorded.")
     st.write("You may now close this tab.")
     st.stop()
-
-def append_to_gcs(df, bucket_name, file_name):
-    # Initialize Google Cloud Storage client
-    client = storage.Client()
-    bucket = client.bucket(bucket_name)
-    blob = bucket.blob(file_name)
-
-    # Check if the file exists in GCS
-    if blob.exists():
-        print("File exists. Downloading and appending data...")
-        # Download existing file
-        existing_data = blob.download_as_text()
-        existing_df = pd.read_csv(io.StringIO(existing_data))
-
-        # Append new data to the existing DataFrame
-        combined_df = pd.concat([existing_df, df], ignore_index=True)
-    else:
-        print("File does not exist. Creating a new file...")
-        combined_df = df
-
-    # Save the combined DataFrame to CSV in-memory
-    csv_buffer = io.StringIO()
-    combined_df.to_csv(csv_buffer, index=False)
-
-    # Upload the updated CSV back to GCS
-    blob.upload_from_string(csv_buffer.getvalue(), content_type="text/csv")
-    print(f"Data successfully uploaded to gs://{bucket_name}/{file_name}")

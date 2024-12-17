@@ -2,3 +2,4 @@
 depr_google_drive
 *.pyc
 test_cloud.py
+responses.csv
