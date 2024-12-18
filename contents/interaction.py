@@ -207,23 +207,25 @@ def interaction_page():
         st.rerun()
 
     # After conversation, collect user feedback
-    if st.session_state.last_response:
-        st.write("---")
-        st.write("### :red[Rate the Quality of the Response]")
-        st.write("***You must answer to proceed!!***")
-        feedback = st.pills(
-            "C1. In your opinion, how accurate is this response?",
-            options=["1 (Not at all accurate)", "2", "3", "4", "5", "6", "7 (Extremely accurate)"],
-            label_visibility="collapsed"
-        )
-        if feedback is not None:
-            if len(st.session_state.confidence) > 0:
-                if st.button("Next Question", key="Next Question"):
-                    st.session_state.h_responses = []
-                    st.session_state.last_response = None
-                    st.session_state.experiments.append([st.session_state.user_question, st.session_state.cfd, feedback, st.session_state.question_idx, st.session_state.cfd_idx])
-                    st.rerun()
-            else:
-                st.write("# You have completed all the questions!")
-                st.session_state.experiments.append([st.session_state.user_question, st.session_state.cfd, feedback, st.session_state.question_idx, st.session_state.cfd_idx])
-                st.session_state.interaction_done = True
+    with col2:
+        if st.session_state.last_response:
+            st.write("---")
+            st.write("### :red[Rate the Quality of the Response]")
+            st.write("***You must answer to proceed!!***")
+            feedback = st.pills(
+                "C1. In your opinion, how accurate is this response?",
+                options=["1 (Not at all accurate)", "2", "3", "4", "5", "6", "7 (Extremely accurate)"],
+                label_visibility="collapsed"
+            )
+            if feedback is not None:
+                if len(st.session_state.confidence) > 0:
+                    if st.button("Next Question", key="Next Question"):
+                        st.session_state.h_responses = []
+                        st.session_state.last_response = None
+                        st.session_state.experiments.append([st.session_state.user_question, st.session_state.cfd, feedback, st.session_state.question_idx, st.session_state.cfd_idx])
+                        st.rerun()
+                else:
+                    st.write("### Done! Please proceed with &nbsp; &nbsp; :red[🠋🠋]")
+                    if not st.session_state.interaction_done:
+                        st.session_state.experiments.append([st.session_state.user_question, st.session_state.cfd, feedback, st.session_state.question_idx, st.session_state.cfd_idx])
+                    st.session_state.interaction_done = True

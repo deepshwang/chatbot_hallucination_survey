@@ -8,15 +8,12 @@ questions_1 = [
     "Competent", "Skillful", "Intelligent", "Dominant",
     "Assertive", "Forceful"
 ]
-rquestions_1 = random.sample(questions_1, len(questions_1))
 
 questions_2 = ["This chatbot is accurate", "This chatbot is authentic", "This chatbot is believable"]
-rquestions_2 = random.sample(questions_2, len(questions_2))
 
 questions_4 = ["I would like to keep interacting with the chatbot in the future.", 
                "I would recommend this chatbot to my friends.",
                "I wish I had an agent such as this chatbot."]
-rquestions_4 = random.sample(questions_4, len(questions_4))
 
 def cache_response(response):
     # Display collected responses
@@ -43,6 +40,9 @@ def post_page_1():
     st.write("**C2. In your opinion, how well does each of the following words describe this chatbot?**")
 
     # Render questions with select sliders
+    if "rquestions_1" not in st.session_state:
+        st.session_state.rquestions_1 = random.sample(questions_1, len(questions_1))
+    rquestions_1 = st.session_state.rquestions_1
 
     for question in rquestions_1:
         st.write(f"> {question}")
@@ -74,7 +74,9 @@ def post_page_2():
     # Header
     st.write("**C3. To what extent do you agree with the following statements?**")
 
-    # Render questions with select sliders
+    if "rquestions_2" not in st.session_state:
+        st.session_state.rquestions_2 = random.sample(questions_2, len(questions_2))
+    rquestions_2 = st.session_state.rquestions_2
 
     for question in rquestions_2:
         st.write(f"> {question}")
@@ -118,6 +120,10 @@ def post_page_4():
 
     # Header
     st.write("**To what extent do you agree with the following statements?**")
+
+    if "rquestions_4" not in st.session_state:
+        st.session_state.rquestions_4 = random.sample(questions_4, len(questions_4))
+    rquestions_4 = st.session_state.rquestions_4
 
     for question in rquestions_4:
         st.write(f"> {question}")
