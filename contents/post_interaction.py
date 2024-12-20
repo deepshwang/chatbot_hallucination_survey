@@ -180,7 +180,7 @@ def save_results():
     data_to_save = pd.concat([flattened_responses, experiments_df], axis=1)
     
     # Filepath to save data
-    csv_file_path = "responses.csv"
+    csv_file_path = "G:/내 드라이브/과제/chatbot_hallucination_website/responses.csv"
 
     # Save to CSV (append if exists)
     if os.path.exists(csv_file_path):
@@ -197,4 +197,3 @@ def save_results():
 def closing_page():
     st.write("Thank you for participating in this study. Your responses have been recorded.")
     st.write("You may now close this tab.")
-    st.stop()

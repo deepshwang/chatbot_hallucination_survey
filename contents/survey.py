@@ -36,7 +36,7 @@ def survey_page_1():
     select_responses = {"2": ["Male", "Female", "Non-binary", "Prefer not to answer"],
                  "3": ["American Indian or Alaskan Native", "Asian", "Black or African American", "Hispanic or Latinx", "White or Caucasian", "Other", "Prefer not to answer"],
                  "4": ["No schooling completed", "High school graduate, diploma or the equivalent (for example: GED)", "Bachelor's degree", "Master's degree", "Doctorate degree", "Other", "Prefer not to answer"],
-                 "5": ["$0 ~ $15,000", "$15,001 ~ $25,000", "$25,001 ~ $35,000", "$35,001 ~ $50,000", "$50,001  $75,000", "$75,001 ~ $100,000", "$100,001 ~ $200,000", "More than $200,000", "Prefer not to answer"],
+                 "5": ["$0 ~ $15,000", "$15,001 ~ $25,000", "$25,001 ~ $35,000", "$35,001 ~ $50,000", "$50,001 ~ $75,000", "$75,001 ~ $100,000", "$100,001 ~ $200,000", "More than $200,000", "Prefer not to answer"],
                  "6": ["Yes", "No"],
                  "7": ["1 (Elementary proficiency)", "2 (Limited working proficiency)", "3 (Professional working proficiency)", "4 (Full professional proficiency)", "5 (Full bilingual proficiency)"]}
 

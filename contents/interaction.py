@@ -222,10 +222,10 @@ def interaction_page():
                     if st.button("Next Question", key="Next Question"):
                         st.session_state.h_responses = []
                         st.session_state.last_response = None
-                        st.session_state.experiments.append([st.session_state.user_question, st.session_state.cfd, feedback, st.session_state.question_idx, st.session_state.cfd_idx])
+                        st.session_state.experiments.append([st.session_state.user_question, st.session_state.cfd, feedback[0], st.session_state.question_idx, st.session_state.cfd_idx])
                         st.rerun()
                 else:
-                    st.write("### Done! Please proceed with &nbsp; &nbsp; :red[🠋🠋]")
+                    st.write("### Done! Please proceed.")
                     if not st.session_state.interaction_done:
-                        st.session_state.experiments.append([st.session_state.user_question, st.session_state.cfd, feedback, st.session_state.question_idx, st.session_state.cfd_idx])
+                        st.session_state.experiments.append([st.session_state.user_question, st.session_state.cfd, feedback[0], st.session_state.question_idx, st.session_state.cfd_idx])
                     st.session_state.interaction_done = True
