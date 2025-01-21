@@ -55,10 +55,6 @@ def survey_page_2():
     # Define the survey questions and Likert scale labels
     response = {val: None for val in questions_2}
 
-    slider_labels = [
-        "1 \n (Does not desribe me at all)", "2", "3", "4", "5", "6", "7 (Describes me very well)"
-    ]
-
     # Shuffle the list once and store it in session state
     if "shuffled_questions_survey_page_2" not in st.session_state:
         st.session_state.shuffled_questions_survey_page_2 = random.sample(questions_2, len(questions_2))
@@ -69,25 +65,56 @@ def survey_page_2():
 
     # Header
     st.write("**8. How well does each of the following words describe you?**")
+    
+    # Render questions with radio buttons in a grid
+    ra = 0.18
+    rb = 0.105
+    rc = 0.178
+    rd = 1 - ra - rb - rc
+    cols = st.columns([ra, rb, rc, rd])
+    with cols[1]:
+        st.markdown("<div style='text-align: center;'>Not</div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center; margin-top:-5px;'>at all</div>", unsafe_allow_html=True)
+    with cols[2]:
+        st.markdown("<div style='text-align: center;'>Very</div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center; margin-top:-5px;'>well</div>", unsafe_allow_html=True)
 
-    # Render questions with select sliders
 
+    ra = 0.2275
+    rb = 0.0231
+    rc = 1 - ra - 7 * rb
+    cols = st.columns([ra] + 7 * [rb] + [rc])           
+    with cols[1]:
+        st.write("1")
+    with cols[2]:
+        st.write("2")
+    with cols[3]:
+        st.write("3")
+    with cols[4]:
+        st.write("4")
+    with cols[5]:
+        st.write("5")
+    with cols[6]:
+        st.write("6")
+    with cols[7]:
+        st.write("7")
 
     for question in questions:
-        st.write(f"> **{question}**")
-        selected_value = st.pills(
-            label=question,  # Hidden label for accessibility
-            options=slider_labels,  # Custom labels
-            default=None,  # Default to neutral 
-            key=f"slider_{question}",
-            label_visibility="collapsed"
-        )
-
-        # Update session state
+        cols = st.columns([2, 7])  # Adjusted ratio for better alignment
+        with cols[0]:
+            st.markdown(f"<div style='padding-top: 10px;'>{question}</div>", unsafe_allow_html=True)
+            
+        with cols[1]:
+            selected_value = st.radio(
+                label=question,
+                options=["", "", "", "", "", "", ""],
+                horizontal=True,
+                key=f"radio_{question}",
+                index=None,
+                label_visibility="collapsed",
+            )
         if selected_value is not None:
-            response[question] = selected_value[0]
-        # else:
-            # st.warning("You must select one")
+            response[question] = selected_value
 
     cache_response(response)
 
@@ -97,41 +124,72 @@ def survey_page_3():
     # Define the survey questions and Likert scale labels
     response = {val: None for val in questions_3}
 
-    slider_labels = [
-        "1 (Not at all)", "2", "3", "4", "5", "6", "7 (Very well)"
-    ]
-
-
     # Shuffle the list once and store it in session state
     if "shuffled_questions_survey_page_3" not in st.session_state:
         st.session_state.shuffled_questions_survey_page_3 = random.sample(questions_3, len(questions_3))
 
-
-    # Store responses in session state
     questions = st.session_state.shuffled_questions_survey_page_3
 
     # Header
     st.write("**9. In your opinion, how well does each of the following words describe artificial intelligence (AI)?**")
+    
+    # Render questions with radio buttons in a grid
+    # cols = st.columns([6, 4.5, 16.5])
+    # with cols[1]:
+    #     st.write("**Not at all**")
+    # with cols[2]:
+    #     st.write("**Very well**")
 
-    # Render questions with select sliders
+    ra = 0.18
+    rb = 0.105
+    rc = 0.178
+    rd = 1 - ra - rb - rc
+    cols = st.columns([ra, rb, rc, rd])
+    with cols[1]:
+        st.markdown("<div style='text-align: center;'>Not</div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center; margin-top:-5px;'>at all</div>", unsafe_allow_html=True)
+    with cols[2]:
+        st.markdown("<div style='text-align: center;'>Very</div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center; margin-top:-5px;'>well</div>", unsafe_allow_html=True)
+    
 
+    ra = 0.2275
+    rb = 0.0231
+    rc = 1 - ra - 7 * rb
+    cols = st.columns([ra] + 7 * [rb] + [rc])           
+    with cols[1]:
+        st.write("1")
+    with cols[2]:
+        st.write("2")
+    with cols[3]:
+        st.write("3")
+    with cols[4]:
+        st.write("4")
+    with cols[5]:
+        st.write("5")
+    with cols[6]:
+        st.write("6")
+    with cols[7]:
+        st.write("7")
 
     for question in questions:
-        st.write(f"> {question}")
-        selected_value = st.pills(
-            label=f"{question}",  # Hidden label for accessibility
-            options=slider_labels,  # Custom labels
-            default=None,  # Default to neutral 
-            key=f"slider_{question}",
-            label_visibility="collapsed"
-        )
-
-        # Update session state
-
+        cols = st.columns([2, 7])  # Adjusted ratio for better alignment
+        with cols[0]:
+            st.markdown(f"<div style='padding-top: 10px;'>{question}</div>", unsafe_allow_html=True)
+        
+        with cols[1]:
+            selected_value = st.radio(
+                label=question,
+                options=["", "", "", "", "", "", ""],
+                # options=["1", "2", "3", "4", "5", "6", "7"],
+                horizontal=True,
+                key=f"radio_{question}",
+                index=None,
+                label_visibility="collapsed",
+            )
+        
         if selected_value is not None:
-            response[question] = selected_value[0]
-        # else:
-            # st.warning("You must select one")
+            response[question] = selected_value
 
     cache_response(response)
 
@@ -147,23 +205,57 @@ def survey_page_4():
 
     response = {}
 
-    slider_labels = [
-        "1 (Not informed at all)", "2", "3", "4", "5", "6", "7 (Very well-informed)"
-    ]
+    # Question 10 with same layout as previous pages
+    st.write(f"**10. {questions[0]}**")
+    ra = 0.01
+    rb = 0.105
+    rc = 0.18
+    rd = 1 - ra - rb - rc
+    cols = st.columns([ra, rb, rc, rd])
+    with cols[1]:
+        st.markdown("<div style='text-align: center;'>Not informed</div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center; margin-top:-5px;'>at all</div>", unsafe_allow_html=True)
+    with cols[2]:
+        st.markdown("<div style='text-align: center;'>Very</div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center; margin-top:-5px;'>well-informed</div>", unsafe_allow_html=True)
 
-    st.write(f"> **10. {questions[0]}**")
-    selected_value = st.pills(
-        label="10",  # Hidden label for accessibility
-        options=slider_labels,  # Custom labels
-        default=None,  # Default to neutral 
-        key=f"slider_{questions[0]}",
-        label_visibility="collapsed"
+    ra = 0.058
+    rb = 0.0229
+    rc = 1 - ra - 7 * rb
+    cols = st.columns([ra] + 7 * [rb] + [rc])           
+    with cols[1]:
+        st.write("1")
+    with cols[2]:
+        st.write("2")
+    with cols[3]:
+        st.write("3")
+    with cols[4]:
+        st.write("4")
+    with cols[5]:
+        st.write("5")
+    with cols[6]:
+        st.write("6")
+    with cols[7]:
+        st.write("7")
+
+
+    cols = st.columns([0.385, 7])
+    with cols[0]:
+        st.write("")  # Empty space for alignment
+    with cols[1]:
+        selected_value = st.radio(
+            label=questions[0],
+            options=["", "", "", "", "", "", ""],
+            horizontal=True,
+            key=f"radio_{questions[0]}",
+            index=None,
+            label_visibility="collapsed",
         )
+        
     if selected_value is not None:
-        response[questions[0]] = selected_value[0]
-    # else:
-        # st.warning("You must select one")
+        response[questions[0]] = selected_value
 
+    # Rest of survey_page_4 remains the same
     options_11 = ["Never", "Used once or twice", "Use sometimes", "Use regularly"]
     st.write(f"> **11. {questions[1]}**")
     response[questions[1]] = st.radio(f"11. **{questions[1]}**", options_11, key="select_11", label_visibility="collapsed", index=None)

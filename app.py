@@ -26,7 +26,19 @@ def next_page():
 def prev_page():
     st.session_state.page -= 1
 
-
+def check_response_is_not_none(check_page=["survey_page_1", "survey_page_2", "survey_page_3", "survey_page_4",
+                                                  "post_page_1", "post_page_2", "post_page_3", "post_page_4"]):
+    # Display collected responses
+    page_name = st.session_state.pages_name[st.session_state.page]
+    if page_name in check_page:
+        cur_response = st.session_state.responses[page_name]
+        # cur_response is a nested dictionary. check if all values are not None
+        for key, value in cur_response.items():
+            if value is None:
+                return False
+        return True
+    else:
+        return True
 
 # Main function to control the flow
 def main():
@@ -47,15 +59,18 @@ def main():
     pages[st.session_state.page]()
 
     col1, _, _, _, col2 = st.columns(5)
-    with col1:
-        if st.session_state.page > 0 and not st.session_state.all_done:
-            st.button("Previous", on_click=prev_page)
+    # with col1:
+    #     if st.session_state.page > 0 and not st.session_state.all_done:
+    #         st.button("Previous", on_click=prev_page)
 
     with col2:
         if st.session_state.page == 0 or st.session_state["agree"]:
             if not (st.session_state.page == st.session_state.pages_name.index("interaction_page") and not st.session_state.interaction_done):
                 if st.session_state.page < (len(pages)-2):
-                    st.button("Next", on_click=next_page)
+                    if not check_response_is_not_none():
+                        st.warning("You must answer all questions to proceed.")
+                    else:
+                        st.button("Next", on_click=next_page)
 
 if __name__ == "__main__":
     main()

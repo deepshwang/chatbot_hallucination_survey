@@ -80,10 +80,26 @@ Phone: +82-2-880-5153
 
 E-mail: irb@snu.ac.kr
 
+# Consent Form
+
+> **Title of study: User perceptions of generative AI chatbots**
+
+> **Principal Investigator: Eun-Ju Lee (Professor, Seoul National University)**
+
+1.	I have read the instructions above thoroughly and discussed them with the investigator. 
+2.	I have been made aware of the potential risks and benefits of participating in the study, and I have received satisfactory answers to all my queries. 
+3.	I voluntarily agree to participate in the study. 
+4.	I agree to collection and processing of any personal information gathered during the study within the bounds of the existing legislation and regulations of the Institutional Review Board.
+5.	I agree that my personal information, which will be otherwise kept secured by the investigator(s), may be accessed by government institutions prescribed by laws and regulations and the SNU Institutional Review Board for auditing purposes.
+6.	I understand that I can withdraw participation in the study whenever I want without any risk to me. 
+
+
     """
 
     st.write(consent_text)
-    consent = st.radio("Do you agree to participate?", ["Disagree", "Agree"])
+    
+    
+    consent = st.radio("**Do you agree to the terms outlined above and wish to participate in the study?**", ["Agree", "Disagree"], index=1)
     
     if consent == "Agree":
         st.session_state["agree"] = True
@@ -96,6 +112,6 @@ def thanks_page():
     thanks_text = """
 Thank you for agreeing to participate. We will now begin the study. 
 
-**Please avoid to refresh or close the page during the study, as it may cause errors and affect your payment**.
+**Please avoid refreshing or closing the page during the study, as it may cause errors and affect your payment**.
 """
     st.write(thanks_text)

@@ -42,21 +42,70 @@ def post_page_1():
     # Render questions with select sliders
     if "rquestions_1" not in st.session_state:
         st.session_state.rquestions_1 = random.sample(questions_1, len(questions_1))
-    rquestions_1 = st.session_state.rquestions_1
+    questions = st.session_state.rquestions_1
 
-    for question in rquestions_1:
-        st.write(f"> {question}")
-        selected_value = st.pills(
-            label=f"{question}",  # Hidden label for accessibility
-            options=slider_labels,  # Custom labels
-            default=None,  # Default to neutral 
-            key=f"slider_{question}",
-            label_visibility="collapsed"
-        )
+    # for question in questions:
+    #     st.write(f"> {question}")
+    #     selected_value = st.pills(
+    #         label=f"{question}",  # Hidden label for accessibility
+    #         options=slider_labels,  # Custom labels
+    #         default=None,  # Default to neutral 
+    #         key=f"slider_{question}",
+    #         label_visibility="collapsed"
+    #     )
 
-        # Update session state
-        if selected_value is not None:
-            response[question] = selected_value[0]
+    # Render questions with radio buttons in a grid
+    ra = 0.18
+    rb = 0.105
+    rc = 0.178
+    rd = 1 - ra - rb - rc
+    cols = st.columns([ra, rb, rc, rd])
+    with cols[1]:
+        st.markdown("<div style='text-align: center;'>Not</div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center; margin-top:-5px;'>at all</div>", unsafe_allow_html=True)
+    with cols[2]:
+        st.markdown("<div style='text-align: center;'>Very</div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center; margin-top:-5px;'>well</div>", unsafe_allow_html=True)
+
+
+    ra = 0.2275
+    rb = 0.0231
+    rc = 1 - ra - 7 * rb
+    cols = st.columns([ra] + 7 * [rb] + [rc])           
+    with cols[1]:
+        st.write("1")
+    with cols[2]:
+        st.write("2")
+    with cols[3]:
+        st.write("3")
+    with cols[4]:
+        st.write("4")
+    with cols[5]:
+        st.write("5")
+    with cols[6]:
+        st.write("6")
+    with cols[7]:
+        st.write("7")
+
+    for question in questions:
+        cols = st.columns([2, 7])  # Adjusted ratio for better alignment
+        with cols[0]:
+            st.markdown(f"<div style='padding-top: 10px;'>{question}</div>", unsafe_allow_html=True)
+            
+        with cols[1]:
+            selected_value = st.radio(
+                label=question,
+                options=["", "", "", "", "", "", ""],
+                horizontal=True,
+                key=f"radio_{question}",
+                index=None,
+                label_visibility="collapsed",
+            )
+
+            # Update session state
+            if selected_value is not None:
+                import pdb; pdb.set_trace()
+                response[question] = selected_value
         # else:
         #     st.warning("You must select one")
 
@@ -98,7 +147,7 @@ def post_page_2():
 
 def post_page_3():
     question = "C4. In your opinion, how human-like is this chatbot?"
-    st.write(f"> **{question}**")
+    # st.write(f"> **{question}**")
     # response = st.slider(
     #     label=f"{question}",
     #     min_value=0,           # Minimum value

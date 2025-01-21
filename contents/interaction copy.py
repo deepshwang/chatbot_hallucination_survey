@@ -36,23 +36,13 @@ def interaction_intro():
 
     >
     > 1. On the next page, you will see a list of questions. `Select` one question and `ask` the chatbot.
-    > 2. Carefully review the chatbot's answer.
+    > 2. Carefully review the chatbot’s answer.
     > 3. Rate the accuracy of the answer. 
     >
 
     You will ask the chatbot a total of 13 different questions. Click `Next` if you are ready to begin.
 
     """)
-
-def type_effect(text, container, speed=0.03):
-    """Helper function to create typing effect"""
-    placeholder = container.empty()
-    displayed_text = ""
-    for char in text:
-        displayed_text += char
-        placeholder.markdown(displayed_text)
-        time.sleep(speed)
-    return displayed_text
 
 def interaction_page():
     # Initialize session state variables for interaction box, responses, and AI thinking state
@@ -98,147 +88,34 @@ def interaction_page():
             index=None,
             label_visibility="collapsed"
         )
-
-        # Add submit button for the selected question
-        if selected_question and st.button("Submit"):
-            st.session_state.interaction_box = selected_question  # Only paste when submit is clicked
+        if selected_question:
+            st.session_state.interaction_box = selected_question  # Auto-paste to input box
 
     # Right column: Chat window and interaction box
     with col2:
         st.write("### Chat Box")
         
-        chat_container = st.container()
-        with chat_container:
-            # Display chat history (all user questions, AI responses, and thinking messages)
-            for interaction in st.session_state.h_responses:
-                st.markdown(interaction, unsafe_allow_html=True)
-
-            # Create a persistent container for new messages
-            message_container = st.empty()
-
-            # Handle AI response after "thinking"
-            if st.session_state.ai_thinking:
-                time.sleep(2)  # Simulate AI "thinking" delay
-                fail_msg = "Sorry, I don't know the answer to that question. You may ask the question from the list!"
-                ai_response_text = st.session_state.answers.get(st.session_state.user_question, fail_msg)
-                fail = ai_response_text == fail_msg
-                
-                # Remove the temporary container and directly update the chat history
-                st.session_state.h_responses.pop()  # Remove thinking message
-                
-                # Start with the div styling
-                base_message = """
-                <div style="
-                    background-color: #f5f0f0; 
-                    padding: 10px; 
-                    border-radius: 10px; 
-                    color: black; 
-                    width: fit-content; 
-                    font-size: 16px;
-                    margin-bottom: 5px;">
-                    ֎🇦🇮: """
-                
-                # Perform typing effect with the styled div
-                displayed_text = base_message
-                for char in ai_response_text:
-                    displayed_text += char
-                    message_container.markdown(displayed_text + "</div>", unsafe_allow_html=True)
-                    time.sleep(0.05)
-                
-                typed_response = ai_response_text
-                
-                # Create final message with typed response
-                ai_message = f"""
-                <div style="
-                    background-color: #f5f0f0; 
-                    padding: 10px; 
-                    border-radius: 10px; 
-                    color: black; 
-                    width: fit-content; 
-                    font-size: 16px;
-                    margin-bottom: 5px;">
-                    ֎🇦🇮: {typed_response}
-                </div>
-                """
-                
-                if not fail:
-                    st.session_state.cfd = st.session_state.confidence.pop()
-                else:
-                    st.session_state.cfd = "None"
-                
-                if st.session_state.cfd != "None":
-                    ai_message = f"""
-                    <div style="
-                        background-color: #f5f0f0; 
-                        padding: 10px; 
-                        border-radius: 10px; 
-                        color: black; 
-                        width: fit-content; 
-                        font-size: 16px;
-                        margin-bottom: 5px;">
-                        ֎🇦🇮: {typed_response}
-                    </div>
-                    <div style="
-                        background-color: #f5f0f0; 
-                        padding: 10px; 
-                        border-radius: 10px; 
-                        color: black; 
-                        width: fit-content; 
-                        font-size: 24px;
-                        margin-bottom: 5px;
-                        font-weight: bold;">
-                        {st.session_state.cfd}
-                    </div>            
-                    """
-
-                if fail:
-                    st.session_state.last_response = None
-                else:
-                    st.session_state.last_response = ai_response_text
-                
-                # Replace "thinking" message with the actual response
-                st.session_state.h_responses.append(ai_message)
-                st.session_state.ai_thinking = False  # Reset AI thinking state
-                st.rerun()
+        # Display chat history (all user questions, AI responses, and thinking messages)
+        for interaction in st.session_state.h_responses:
+            st.markdown(interaction, unsafe_allow_html=True)
 
         # Interaction box below the chat window
+        st.write("---")
+        st.write("### Type your question here")
+        st.write("*(select one of the questions from the left)*")
+        user_input = st.text_input(
+            label="Type your question here *(select one of the questions from the left)*:",
+            value=st.session_state.interaction_box,
+            key="input_box",
+            label_visibility="collapsed"
+        )
+        # Submit button to send the question
         if st.session_state.last_response is None:
-            st.write("---")
-            st.write("### Type your question here")
-            st.write("*(select one of the questions from the left)*")
-            user_input = st.text_input(
-                label="Type your question here *(select one of the questions from the left)*:",
-                value=st.session_state.interaction_box,
-                key="input_box",
-                label_visibility="collapsed"
-            )
-
-            # Submit button to send the question
             if st.button("⏎", key="Ask_button"):
                 user_question = user_input.strip()
                 st.session_state.user_question = user_question
                 if user_question:
-                    # Start with the div styling for user message
-                    base_message = """
-                    <div style="
-                        background-color: #e3d8d8; 
-                        padding: 10px; 
-                        border-radius: 10px; 
-                        color: black; 
-                        width: fit-content; 
-                        font-size: 16px;
-                        margin-bottom: 5px;
-                        margin-left: auto;
-                        margin-right: 0;">"""
-                    
-                    # Perform typing effect with the styled div
-                    displayed_text = base_message
-                    for char in user_question:
-                        displayed_text += char
-                        message_container.markdown(displayed_text + "</div>", unsafe_allow_html=True)
-                        time.sleep(0.05)
-                    
-                    # Add the final user message to chat history
+                    # Add user's question to chat history
                     user_message = f"""
                     <div style="
                         background-color: #e3d8d8; 
@@ -254,7 +131,6 @@ def interaction_page():
                     </div>
                     """
                     st.session_state.h_responses.append(user_message)
-                    
                     if user_question in st.session_state.questions:
                         st.session_state.question_idx = st.session_state.original_questions.index(user_question)
                         st.session_state.questions.remove(user_question)
@@ -276,6 +152,64 @@ def interaction_page():
                     st.session_state.ai_thinking = True  # Set AI thinking state
                     st.session_state.interaction_box = ""  # Clear interaction box
                     st.rerun()  # Rerun to show "thinking" message first
+
+    # Handle AI response after "thinking"
+    if st.session_state.ai_thinking:
+        time.sleep(2)  # Simulate AI "thinking" delay
+        fail_msg = "Sorry, I don't know the answer to that question. You may ask the question from the list!"
+        ai_response_text = st.session_state.answers.get(st.session_state.user_question, fail_msg)
+        fail = ai_response_text == fail_msg
+        ai_message = f"""
+        <div style="
+            background-color: #f5f0f0; 
+            padding: 10px; 
+            border-radius: 10px; 
+            color: black; 
+            width: fit-content; 
+            font-size: 16px;
+            margin-bottom: 5px;">
+            ֎🇦🇮: {ai_response_text}
+        </div>
+        <div></div>
+        """
+        if not fail:
+            st.session_state.cfd = st.session_state.confidence.pop()
+        else:
+            st.session_state.cfd = "None"
+        
+        if st.session_state.cfd != "None":
+            ai_message = f"""
+            <div style="
+                background-color: #f5f0f0; 
+                padding: 10px; 
+                border-radius: 10px; 
+                color: black; 
+                width: fit-content; 
+                font-size: 16px;
+                margin-bottom: 5px;">
+                ֎🇦🇮: {ai_response_text}
+            </div>
+            <div style="
+                background-color: #f5f0f0; 
+                padding: 10px; 
+                border-radius: 10px; 
+                color: black; 
+                width: fit-content; 
+                font-size: 24px;
+                margin-bottom: 5px;
+                font-weight: bold;">
+                {st.session_state.cfd}
+            </div>            
+            """
+        if fail:
+            st.session_state.last_response = None
+        else:
+            st.session_state.last_response = ai_response_text
+        
+        # Replace "thinking" message with the actual response
+        st.session_state.h_responses[-1] = ai_message
+        st.session_state.ai_thinking = False  # Reset AI thinking state
+        st.rerun()
 
     # After conversation, collect user feedback
     with col2:
