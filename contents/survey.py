@@ -56,7 +56,7 @@ def survey_page_2():
     response = {val: None for val in questions_2}
 
     slider_labels = [
-        "1 \n (Does not desribe me at all)", "2", "3", "4", "5", "6", "7 (Describes me very well)"
+        "1 \n (Not at all)", "2", "3", "4", "5", "6", "7 (Very well)"
     ]
 
     # Shuffle the list once and store it in session state

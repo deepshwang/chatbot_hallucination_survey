@@ -136,7 +136,7 @@ def interaction_page():
                     width: fit-content; 
                     font-size: 16px;
                     margin-bottom: 5px;">
-                    ֎🇦🇮: """
+                    ֎ AI: """
                 
                 # Perform typing effect with the styled div
                 displayed_text = base_message
@@ -157,7 +157,7 @@ def interaction_page():
                     width: fit-content; 
                     font-size: 16px;
                     margin-bottom: 5px;">
-                    ֎🇦🇮: {typed_response}
+                    ֎ AI: {typed_response}
                 </div>
                 """
                 
@@ -176,7 +176,7 @@ def interaction_page():
                         width: fit-content; 
                         font-size: 16px;
                         margin-bottom: 5px;">
-                        ֎🇦🇮: {typed_response}
+                        ֎ AI: {typed_response}
                     </div>
                     <div style="
                         background-color: #f5f0f0; 
@@ -269,7 +269,7 @@ def interaction_page():
                         width: fit-content; 
                         font-size: 16px;
                         margin-bottom: 5px;">
-                        ֎🇦🇮 is thinking...
+                        ֎ AI is thinking...
                     </div>
                     """
                     st.session_state.h_responses.append(thinking_message)
