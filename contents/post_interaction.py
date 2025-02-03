@@ -207,7 +207,7 @@ def save_results():
     
     # Filepath to save data
     # csv_file_path = "responses.csv"
-    csv_file_path = "G:\내 드라이브\과제\chatbot_hallucination_website\responses.csv"
+    csv_file_path = "G:/내 드라이브/과제/chatbot_hallucination_website/responses.csv"
 
     # Save to CSV (append if exists)
     if os.path.exists(csv_file_path):
