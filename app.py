@@ -1,6 +1,15 @@
 import streamlit as st
 def wide_space_default():
     st.set_page_config(layout="wide")
+    # Add custom CSS to hide the menu
+    hide_menu = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        </style>
+    """
+    st.markdown(hide_menu, unsafe_allow_html=True)
+    
 wide_space_default()
 
 import pandas as pd
@@ -11,18 +20,7 @@ from contents.survey import *
 from contents.interaction import *
 from contents.post_interaction import *
 
-st.markdown(
-    """
-    <style>
-    .css-1jc7ptx, .e1ewe7hr3, .viewerBadge_container__1QSob,
-    .styles_viewerBadge__1yB5_, .viewerBadge_link__1S137,
-    .viewerBadge_text__1JaDK {
-        display: none;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+
 
 # Initialize the page state in session_state
 if "page" not in st.session_state:
