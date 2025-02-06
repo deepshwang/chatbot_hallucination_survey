@@ -59,9 +59,10 @@ def main():
     pages[st.session_state.page]()
 
     col1, _, _, _, col2 = st.columns(5)
-    # with col1:
-    #     if st.session_state.page > 0 and not st.session_state.all_done:
-    #         st.button("Previous", on_click=prev_page)
+    with col1:
+        # if st.session_state.page > 0 and not st.session_state.all_done:
+        if st.session_state.page > 0:
+            st.button("Previous", on_click=prev_page)
 
     with col2:
         if st.session_state.page == 0 or st.session_state["agree"]:

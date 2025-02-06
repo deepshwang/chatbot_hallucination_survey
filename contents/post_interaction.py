@@ -205,17 +205,13 @@ def save_results():
     experiments_df = pd.DataFrame([flattened_experiments], columns=columns)
     data_to_save = pd.concat([flattened_responses, experiments_df], axis=1)
     
-    # Filepath to save data
-    # csv_file_path = "responses.csv"
-    csv_file_path = "G:/내 드라이브/과제/chatbot_hallucination_website/responses.csv"
 
-    # Save to CSV (append if exists)
-    if os.path.exists(csv_file_path):
-        data_to_save.to_csv(csv_file_path, mode='a', index=False, header=False)  # Append without headers
-        print(f"Data appended to {csv_file_path}")
-    else:
-        data_to_save.to_csv(csv_file_path, mode='w', index=False, header=True)  # Write new file with headers
-        print(f"New file created: {csv_file_path}")
+
+
+    # Call the function to send email
+    send_results_email(data_to_save, "jwp14812@snu.ac.kr")
+
+
 
     st.session_state.page += 1
 
@@ -225,3 +221,37 @@ def closing_page():
     st.write("Thank you for participating in this study. Your responses have been recorded.")
     st.write("You may now close this tab.")
     st.stop()
+
+def send_results_email(data_df, recipient_email):
+    # Convert DataFrame to CSV string
+    csv_data = data_df.to_csv(index=False)
+    
+    # Create email message with CSV attachment
+    import smtplib
+    from email.mime.text import MIMEText
+    from email.mime.multipart import MIMEMultipart
+    from email.mime.application import MIMEApplication
+    
+    msg = MIMEMultipart()
+    msg['Subject'] = 'Study Results Data'
+    msg['From'] = st.secrets["EMAIL"]
+    msg['To'] = recipient_email
+    
+    # Attach CSV file
+    attachment = MIMEApplication(csv_data)
+    # Generate a unique filename using timestamp and random string
+    from datetime import datetime
+    import uuid
+    
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    unique_id = str(uuid.uuid4())[:8]
+    filename = f"study_results_{timestamp}_{unique_id}.csv"
+    attachment['Content-Disposition'] = 'attachment; filename="study_results.csv"'
+    msg.attach(attachment)
+    
+    # Send email
+    smtp_server = smtplib.SMTP('smtp.gmail.com', 587)
+    smtp_server.starttls()
+    smtp_server.login(st.secrets["EMAIL"], st.secrets["EMAIL_PASSWORD"])
+    smtp_server.send_message(msg)
+    smtp_server.quit()
