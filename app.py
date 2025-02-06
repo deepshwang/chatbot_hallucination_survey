@@ -1,11 +1,12 @@
 import streamlit as st
 def wide_space_default():
-    st.set_page_config(layout="wide")
+    # st.set_page_config(layout="wide")
     # Add custom CSS to hide the menu
     hide_menu = """
         <style>
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
+        header {visibility: hidden;}
         </style>
     """
     st.markdown(hide_menu, unsafe_allow_html=True)
