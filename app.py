@@ -11,6 +11,14 @@ from contents.survey import *
 from contents.interaction import *
 from contents.post_interaction import *
 
+# Add custom CSS to hide the GitHub icon
+hide_github_icon = """
+#GithubIcon {
+  visibility: hidden;
+}
+"""
+st.markdown(hide_github_icon, unsafe_allow_html=True)
+
 # Initialize the page state in session_state
 if "page" not in st.session_state:
     st.session_state.page = 0
