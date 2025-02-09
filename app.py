@@ -69,7 +69,7 @@ def main():
         st.session_state.responses = {}
         query_params = st.query_params
         if "PROLIFIC_PID" in query_params:
-            st.session_state.responses["PROLIFIC_PID"] = query_params["PROLIFIC_PID"]
+            st.session_state.responses["PROLIFIC_PID"] = query_params["PROLIFIC_PID"][1:-1]
         else:
             st.session_state.responses["PROLIFIC_PID"] = None
     # Display PROLIFIC_PID in sidebar for debugging
