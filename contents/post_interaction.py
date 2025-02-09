@@ -188,8 +188,12 @@ Once again, thank you for your participation.
     if consent == "Agree":
         if st.button("Submit"):
             save_results()
-    # if consent == "Disagree":
-    #     st.warning("You must agree to make a final submission.")
+            st.session_state.submission_consent = True
+    if consent == "Disagree":
+        if st.button("Next"):
+            st.session_state.page += 1
+            st.session_state.submission_consent = False
+
 
 def save_results():
     responses = st.session_state.responses
@@ -218,9 +222,16 @@ def save_results():
     st.rerun()
 
 def closing_page():
-    st.write("Thank you for participating in this study. Your responses have been recorded.")
-    st.write("You may now close this tab.")
-    st.stop()
+    if st.session_state.submission_consent:
+        st.write("Thank you for participating in this study.")
+        st.write("Please click the link below to return to Prolific and complete your participation.")
+        st.markdown("[https://app.prolific.com/submissions/complete?cc=C12E2UJG](https://app.prolific.com/submissions/complete?cc=C12E2UJG)")
+        st.stop()
+    else:
+        st.write("Thank you for participating in this study. Your responses will not be submitted.")
+        st.write("Please click the link below to exit the study.")
+        st.markdown("[https://app.prolific.com/submissions/complete?cc=C1MT56Z4](https://app.prolific.com/submissions/complete?cc=C1MT56Z4)")
+        st.stop()
 
 def send_results_email(data_df, recipient_email):
     # Convert DataFrame to CSV string

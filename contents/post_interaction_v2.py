@@ -104,7 +104,6 @@ def post_page_1():
 
             # Update session state
             if selected_value is not None:
-                import pdb; pdb.set_trace()
                 response[question] = selected_value
         # else:
         #     st.warning("You must select one")

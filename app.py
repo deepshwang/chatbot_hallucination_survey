@@ -67,9 +67,13 @@ def main():
     # Set up responses state
     if "responses" not in st.session_state:
         st.session_state.responses = {}
+        query_params = st.experimental_get_query_params()
+        if "PROLIFIC_PID" in query_params:
+            st.session_state.responses["PROLIFIC_PID"] = query_params["PROLIFIC_PID"][0]
+        else:
+            st.session_state.responses["PROLIFIC_PID"] = None
     # Display the current page
     pages[st.session_state.page]()
-
     col1, _, _, _, col2 = st.columns(5)
     # with col1:
     #     # if st.session_state.page > 0 and not st.session_state.all_done:
