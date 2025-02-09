@@ -67,11 +67,14 @@ def main():
     # Set up responses state
     if "responses" not in st.session_state:
         st.session_state.responses = {}
-        query_params = st.experimental_get_query_params()
+        query_params = st.query_params()
         if "PROLIFIC_PID" in query_params:
             st.session_state.responses["PROLIFIC_PID"] = query_params["PROLIFIC_PID"][0]
         else:
             st.session_state.responses["PROLIFIC_PID"] = None
+    # Display PROLIFIC_PID in sidebar for debugging
+    with st.sidebar:
+        st.write("PROLIFIC_PID:", st.session_state.responses.get("PROLIFIC_PID", "Not found"))
     # Display the current page
     pages[st.session_state.page]()
     col1, _, _, _, col2 = st.columns(5)
