@@ -7,6 +7,7 @@ def wide_space_default():
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
         header {visibility: hidden;}
+        .reportview-container .main footer {visibility: hidden;}
         </style>
     """
     st.markdown(hide_menu, unsafe_allow_html=True)
