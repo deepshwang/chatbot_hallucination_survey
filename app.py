@@ -11,7 +11,7 @@ def wide_space_default():
         </style>
     """
     st.markdown(hide_menu, unsafe_allow_html=True)
-    
+    st.markdown("<style>footer {visibility: hidden;}</style>", unsafe_allow_html=True)
 wide_space_default()
 
 import pandas as pd
